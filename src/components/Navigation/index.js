@@ -15,14 +15,16 @@ export default function Navigation() {
 
   return (
     <Navbar bg="light" expand="lg">
-      <Navbar.Brand as={NavLink} to="/">
-        YOUR PROJECT NAME
-      </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
-        <Nav style={{ width: "100%" }} fill>
+        <Nav
+          style={{ width: "20%" }}
+          fill
+          className="position-absolute top-0 end-0"
+        >
           <NavbarItem path="/" linkText="Home" />
           <NavbarItem path="/other" linkText="Other" />
+          <NavbarItem path="/test" linkText="ml5" />
           {loginLogoutControls}
         </Nav>
       </Navbar.Collapse>
