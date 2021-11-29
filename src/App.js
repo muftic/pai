@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "./App.css";
-
+import Galery from "./components/Galery";
 import { Routes, Route } from "react-router-dom";
 import Navigation from "./components/Navigation";
 import Loading from "./components/Loading";
@@ -14,6 +14,7 @@ import { getUserWithStoredToken } from "./store/user/actions";
 import { Jumbotron } from "react-bootstrap";
 import Cloudinary from "./pages/Cloudinary";
 import Test from "./pages/Test";
+import { fetchSubs } from "./store/submissions/actions";
 import HomePage from "./pages/HomePage";
 const Home = () => (
   <Jumbotron>
@@ -32,6 +33,7 @@ function App() {
 
   useEffect(() => {
     dispatch(getUserWithStoredToken());
+    dispatch(fetchSubs());
   }, [dispatch]);
 
   return (
@@ -45,6 +47,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
         <Route path="/test" element={<Test />} />
+        <Route path="/galery" element={<Galery />} />
       </Routes>
     </div>
   );
