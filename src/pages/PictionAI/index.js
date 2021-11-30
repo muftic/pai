@@ -15,7 +15,9 @@ import { selectToken } from "../../store/user/selectors";
 const classifier = ml5.imageClassifier("MobileNet", modelLoaded);
 
 let image = document.getElementById(`thisOne`);
-
+function isEmpty(obj) {
+  return Object.keys(obj).length === 0;
+}
 function modelLoaded() {
   console.log("Model Loaded!");
   if (image === null) {
@@ -23,7 +25,7 @@ function modelLoaded() {
   }
 }
 
-export default function Cloudinary() {
+export default function PictionAI() {
   const token = useSelector(selectToken);
   function classifyImg() {
     classifier
@@ -52,18 +54,7 @@ export default function Cloudinary() {
   const [playerName, setPlayerName] = useState("");
 
   function classFunc() {
-    async function myFunc() {
-      //console.log(JSON.stringify(imageClassification));
-      const response = await axios.post(`${apiUrl}/submissions`, {
-        score: 100,
-        imageUrl: imageData,
-        classification: JSON.stringify(imageClassification),
-        userId: 1,
-        challengeId: 1,
-      });
-      console.log(response);
-    }
-
+    let classification;
     classifier
       .predict(image, 3, function (err, results) {
         if (err) {
@@ -75,11 +66,21 @@ export default function Cloudinary() {
         // set the prediction in state and off the loader
         // this.setLoader(false);
         //this.setPredictions(results);
-        console.log(results);
-        setImageClassification({ ...results });
-        console.log(imageClassification);
+
+        classification = JSON.stringify({ ...results });
         myFunc();
       });
+    async function myFunc() {
+      console.log("got here", classification);
+      const response = await axios.post(`${apiUrl}/submissions`, {
+        score: 100,
+        imageUrl: imageData,
+        classification: classification,
+        userId: 1,
+        challengeId: 1,
+      });
+      console.log("this is response", response);
+    }
   }
 
   const uploadImage = async (e) => {
@@ -133,23 +134,6 @@ export default function Cloudinary() {
           {image ? <h1 style={{ fontSize: 20 }}>Succesfully uploaded!</h1> : ""}
         </div>
         <Button onClick={classFunc}>SUBMIT</Button>
-        <button
-          onClick={async () => {
-            const response = await axios.post(
-              `${apiUrl}/submissions`,
-              {
-                score: 100,
-                imageUrl: imageData,
-                classification: JSON.stringify(imageClassification),
-                userId: 1,
-                challengeId: 1,
-              },
-              {}
-            );
-          }}
-        >
-          CREATE
-        </button>
       </div>{" "}
     </div>
   );

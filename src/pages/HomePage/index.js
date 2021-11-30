@@ -1,5 +1,5 @@
 import React from "react";
-import Cloudinary from "../Cloudinary";
+import PictionAI from "../PictionAI";
 import * as ml5 from "ml5";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -18,11 +18,6 @@ function modelLoaded() {
 }
 
 export default function HomePage() {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchSubs());
-  }, []);
   return (
     <div class="main">
       <h1>Welcome to PictionAI</h1>
@@ -33,7 +28,7 @@ export default function HomePage() {
         </p>
         <p>Today's task is: SOCCER BALL</p>
       </div>
-      <Cloudinary />
+      <PictionAI />
     </div>
   );
 }

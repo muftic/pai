@@ -12,8 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectAppLoading } from "./store/appState/selectors";
 import { getUserWithStoredToken } from "./store/user/actions";
 import { Jumbotron } from "react-bootstrap";
-import Cloudinary from "./pages/Cloudinary";
-import Test from "./pages/Test";
+
 import { fetchSubs } from "./store/submissions/actions";
 import HomePage from "./pages/HomePage";
 const Home = () => (
@@ -43,11 +42,9 @@ function App() {
       {isLoading ? <Loading /> : null}
       <Routes>
         <Route exact path="/" element={<HomePage />} />
-        <Route path="/other" element={<Cloudinary />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/test" element={<Test />} />
-        <Route path="/galery" element={<Galery />} />
+        <Route path="/test" element={<Galery />} />
       </Routes>
     </div>
   );
