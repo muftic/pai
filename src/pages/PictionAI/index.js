@@ -8,7 +8,7 @@ import { apiUrl } from "../../config/constants";
 import gif from "../../gif.gif";
 import { Button } from "react-bootstrap";
 import { Image } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import * as ml5 from "ml5";
 import { selectToken } from "../../store/user/selectors";
 // When the model is loaded
@@ -27,6 +27,8 @@ function modelLoaded() {
 
 export default function PictionAI() {
   const token = useSelector(selectToken);
+  const dispatch = useDispatch();
+
   function classifyImg() {
     classifier
       .predict(image, 3, function (err, results) {
@@ -80,6 +82,8 @@ export default function PictionAI() {
         challengeId: 1,
       });
       console.log("this is response", response);
+      dispatch({ type: "subs/add", payload: response.data.submission });
+      window.alert(`you scored ${response.data.submission.score}`);
     }
   }
 
@@ -106,11 +110,11 @@ export default function PictionAI() {
 
   return (
     <div style={{ justifyContent: "center" }}>
-      <p>
+      {/*   <p>
         if you want to play, enter your name and click to continue!
         <input onChange={(event) => setPlayerName(event.target.value)} />
         <Button style={{ height: "30px", width: "100px" }}>Continue</Button>
-      </p>
+      </p> */}
       <img src={gif} />
       <div
         style={{

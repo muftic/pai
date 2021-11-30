@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "./App.css";
-import Galery from "./components/Galery";
+import Gallery from "./components/Gallery";
 import { Routes, Route } from "react-router-dom";
 import Navigation from "./components/Navigation";
 import Loading from "./components/Loading";
@@ -44,7 +44,7 @@ function App() {
         <Route exact path="/" element={<HomePage />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/test" element={<Galery />} />
+        <Route path="/test" element={<Gallery />} />
       </Routes>
     </div>
   );

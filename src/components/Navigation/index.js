@@ -23,8 +23,7 @@ export default function Navigation() {
           className="position-absolute top-0 end-0"
         >
           <NavbarItem path="/" linkText="Home" />
-          <NavbarItem path="/test" linkText="Galery" />
-          {loginLogoutControls}
+          <NavbarItem path="/test" linkText="Gallery" />
         </Nav>
       </Navbar.Collapse>
     </Navbar>
