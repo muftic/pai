@@ -2,9 +2,8 @@ import React from "react";
 import PictionAI from "../PictionAI";
 import * as ml5 from "ml5";
 import { useState } from "react";
-import { useEffect } from "react";
-import { fetchSubs } from "../../store/submissions/actions";
-import { useDispatch, useSelector } from "react-redux";
+
+import { useSelector } from "react-redux";
 import { selectChallenges } from "../../store/challenges/selectors";
 // When the model is loaded
 const classifier = ml5.imageClassifier("MobileNet", modelLoaded);
@@ -20,6 +19,7 @@ export default function HomePage() {
   const [taskOption, setTaskOption] = useState(null);
 
   const challenges = useSelector(selectChallenges);
+
   return (
     <div class="main">
       <h1>Welcome to PictionAI</h1>
