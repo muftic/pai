@@ -6,22 +6,23 @@ import { selectChallenges } from "../../store/challenges/selectors";
 import Select from "react-select";
 export default function Galery() {
   const submissions = useSelector(selectSubmissions);
-  const [filteredData, setFilteredData] = useState([]);
+  const [filteredData, setFilteredData] = useState([...submissions]);
   let result = [...submissions];
+  const [challengeId, setChallengeId] = useState(1);
   const challenges = useSelector(selectChallenges);
   const taskOption = challenges.map((ch, i) => {
-    return { value: i, label: ch.name };
+    return { value: i + 1, label: ch.name };
   });
   function handleChange(e) {
-    let value = e.label;
+    let value = e.value;
     let result = [];
     console.log(value);
-
     result = submissions.filter((sub) => {
-      return sub.challenge.name === value;
+      return sub.challengeId === value;
     });
     setFilteredData(result);
   }
+  console.log(filteredData);
   return (
     <div>
       {
@@ -32,7 +33,7 @@ export default function Galery() {
           />
         </div>
       }
-      {filteredData
+      {result
         ? filteredData.map((sub, i) => (
             <div
               style={{
@@ -61,7 +62,7 @@ export default function Galery() {
               ></img>
               <p>Name: Marijan</p>
               <p>
-                Task: {sub.challenge.name} | | | Score:{Math.round(sub.score)}
+                Task: {sub.challengeId} | | | Score:{Math.round(sub.score)}
               </p>
             </div>
           ))

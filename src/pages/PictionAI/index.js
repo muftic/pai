@@ -3,6 +3,9 @@ import { useState } from "react";
 import { Image } from "../styled/Image.styled";
 import { Button } from "../styled/Button.style";
  */
+
+import Select from "react-select";
+import { selectChallenges } from "../../store/challenges/selectors";
 import axios from "axios";
 import { apiUrl } from "../../config/constants";
 import gif from "../../gif.gif";
@@ -26,6 +29,19 @@ function modelLoaded() {
 }
 
 export default function PictionAI() {
+  const [challengeId, setChallengeId] = useState(0);
+
+  function handleChange(e) {
+    let value = e.key;
+
+    console.log(e);
+    setChallengeId(value);
+    console.log(challengeId);
+  }
+  const challenges = useSelector(selectChallenges);
+  const taskOption = challenges.map((ch, i) => {
+    return { value: i, label: ch.name };
+  });
   const token = useSelector(selectToken);
   const dispatch = useDispatch();
 
@@ -73,15 +89,14 @@ export default function PictionAI() {
         myFunc();
       });
     async function myFunc() {
-      console.log("got here", classification);
       const response = await axios.post(`${apiUrl}/submissions`, {
         score: 100,
         imageUrl: imageData,
         classification: classification,
         userId: 1,
-        challengeId: 1,
+        challengeId: challengeId,
       });
-      console.log("this is response", response);
+
       dispatch({ type: "subs/add", payload: response.data.submission });
       window.alert(`you scored ${response.data.submission.score}`);
     }
@@ -107,9 +122,13 @@ export default function PictionAI() {
     console.log("file", file); //check if you are getting the url back
     setImageData(file.url); //put the url in local state, next step you can send it to the backend
   };
-
+  console.log(challengeId);
   return (
     <div style={{ justifyContent: "center" }}>
+      <Select
+        options={taskOption ? taskOption : null}
+        onChange={handleChange}
+      />
       {/*   <p>
         if you want to play, enter your name and click to continue!
         <input onChange={(event) => setPlayerName(event.target.value)} />

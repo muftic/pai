@@ -2,7 +2,6 @@ import React from "react";
 import PictionAI from "../PictionAI";
 import * as ml5 from "ml5";
 import { useState } from "react";
-
 import { useSelector } from "react-redux";
 import { selectChallenges } from "../../store/challenges/selectors";
 // When the model is loaded
@@ -19,7 +18,7 @@ export default function HomePage() {
   const [taskOption, setTaskOption] = useState(null);
 
   const challenges = useSelector(selectChallenges);
-
+  console.log(taskOption);
   return (
     <div class="main">
       <h1>Welcome to PictionAI</h1>
@@ -37,15 +36,20 @@ export default function HomePage() {
           how it works.
         </p>
 
-        <select name="task" value={taskOption}>
+        {/* <select
+          onChange={() => setChallengeId()}
+          name="task"
+          //value={taskOption}
+        >
           {challenges.map((e, key) => {
+            
             return (
               <option key={key} value={e.value}>
                 {e.name}
               </option>
             );
           })}
-        </select>
+        </select> */}
         <p>Pick a challenge!</p>
       </div>
       <PictionAI />
