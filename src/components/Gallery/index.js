@@ -8,7 +8,7 @@ export default function Galery() {
   const submissions = useSelector(selectSubmissions);
   const [filteredData, setFilteredData] = useState([...submissions]);
   let result = [...submissions];
-  const [challengeId, setChallengeId] = useState(1);
+  const [task, setTask] = useState(0);
   const challenges = useSelector(selectChallenges);
   const taskOption = challenges.map((ch, i) => {
     return { value: i + 1, label: ch.name };
@@ -20,17 +20,21 @@ export default function Galery() {
     result = submissions.filter((sub) => {
       return sub.challengeId === value;
     });
+    setTask(value);
+    console.log(result);
     setFilteredData(result);
   }
-  console.log(filteredData);
+  console.log(challenges);
   return (
     <div>
       {
         <div style={{ marginTop: "1vw", textAlign: "center" }}>
-          <Select
-            options={taskOption ? taskOption : null}
-            onChange={handleChange}
-          />
+          {
+            <Select
+              options={taskOption ? taskOption : null}
+              onChange={handleChange}
+            />
+          }
         </div>
       }
       {result
@@ -62,7 +66,8 @@ export default function Galery() {
               ></img>
               <p>Name: Marijan</p>
               <p>
-                Task: {sub.challengeId} | | | Score:{Math.round(sub.score)}
+                Task:{challenges[task].name} | | | Score:
+                {Math.round(sub.score)}
               </p>
             </div>
           ))

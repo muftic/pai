@@ -1,8 +1,4 @@
 import { useState } from "react";
-/* import { h1 } from "../styled/h1.style";
-import { Image } from "../styled/Image.styled";
-import { Button } from "../styled/Button.style";
- */
 
 import Select from "react-select";
 import { selectChallenges } from "../../store/challenges/selectors";
@@ -13,14 +9,11 @@ import { Button } from "react-bootstrap";
 import { Image } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import * as ml5 from "ml5";
-import { selectToken } from "../../store/user/selectors";
 // When the model is loaded
 const classifier = ml5.imageClassifier("MobileNet", modelLoaded);
 
 let image = document.getElementById(`thisOne`);
-function isEmpty(obj) {
-  return Object.keys(obj).length === 0;
-}
+
 function modelLoaded() {
   console.log("Model Loaded!");
   if (image === null) {
@@ -32,44 +25,20 @@ export default function PictionAI() {
   const [challengeId, setChallengeId] = useState(0);
 
   function handleChange(e) {
-    let value = e.key;
+    let value = e.value;
 
     console.log(e);
-    setChallengeId(value);
+    setChallengeId(value + 1);
     console.log(challengeId);
   }
   const challenges = useSelector(selectChallenges);
   const taskOption = challenges.map((ch, i) => {
     return { value: i, label: ch.name };
   });
-  const token = useSelector(selectToken);
   const dispatch = useDispatch();
 
-  function classifyImg() {
-    classifier
-      .predict(image, 3, function (err, results) {
-        if (err) {
-          console.log(err);
-        }
-        return results;
-      })
-      .then((results) => {
-        // set the prediction in state and off the loader
-        // this.setLoader(false);
-        //this.setPredictions(results);
-        console.log(results);
-        setPrediction(results);
-      })
-      .then(() => {
-        console.log(prediction);
-      });
-  }
-  const [prediction, setPrediction] = useState([]);
-  const [imageClassification, setImageClassification] = useState({});
-  const [isPredicted, setIsPredicted] = useState(false);
-  const [isLoading, setLoading] = useState(false);
   const [imageData, setImageData] = useState();
-  const [playerName, setPlayerName] = useState("");
+  //const [playerName, setPlayerName] = useState("");
 
   function classFunc() {
     let classification;
@@ -122,7 +91,7 @@ export default function PictionAI() {
     console.log("file", file); //check if you are getting the url back
     setImageData(file.url); //put the url in local state, next step you can send it to the backend
   };
-  console.log(challengeId);
+
   return (
     <div style={{ justifyContent: "center" }}>
       <Select
@@ -134,7 +103,7 @@ export default function PictionAI() {
         <input onChange={(event) => setPlayerName(event.target.value)} />
         <Button style={{ height: "30px", width: "100px" }}>Continue</Button>
       </p> */}
-      <img src={gif} />
+      <img alt="robot" src={gif} />
       <div
         style={{
           display: "inline-block",
