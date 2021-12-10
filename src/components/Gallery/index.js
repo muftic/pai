@@ -65,8 +65,8 @@ export default function Galery() {
                 src={sub.imageUrl}
               ></img>
               <p>Name: Marijan</p>
-              <p>
-                Task:{challenges[task].name} | | | Score:
+              <p style={{ marginTop: "-5px" }}>
+                Task:{challenges[task - 1].name} | | | Score:
                 {Math.round(sub.score)}
               </p>
             </div>
