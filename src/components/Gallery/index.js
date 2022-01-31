@@ -20,7 +20,7 @@ export default function Galery() {
     result = submissions.filter((sub) => {
       return sub.challengeId === value;
     });
-    setTask(value);
+    setTask(value + 1);
     console.log(result);
     setFilteredData(result);
   }
@@ -66,7 +66,7 @@ export default function Galery() {
               ></img>
               <p>Name: Marijan</p>
               <p style={{ marginTop: "-5px" }}>
-                Task:{challenges[task - 1].name} | | | Score:
+                Task:{challenges[task].name} | | | Score:
                 {Math.round(sub.score)}
               </p>
             </div>

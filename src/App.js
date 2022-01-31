@@ -11,22 +11,23 @@ import Login from "./pages/Login";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAppLoading } from "./store/appState/selectors";
 import { getUserWithStoredToken } from "./store/user/actions";
-import { Jumbotron } from "react-bootstrap";
 
 import { fetchSubs } from "./store/submissions/actions";
 import HomePage from "./pages/HomePage";
-const Home = () => (
-  <Jumbotron>
-    <h1>Home</h1>
-  </Jumbotron>
-);
-const Other = () => (
-  <Jumbotron>
-    <h1>Other</h1>
-  </Jumbotron>
-);
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { purple, dark, green } from "@mui/material/colors";
+import CssBaseline from "@mui/material/CssBaseline";
+import NewNav from "./components/NewNav";
 
 function App() {
+  const theme = createTheme({
+    palette: {
+      mode: "dark",
+      primary: {
+        main: purple[500],
+      },
+    },
+  });
   const dispatch = useDispatch();
   const isLoading = useSelector(selectAppLoading);
 
@@ -36,17 +37,22 @@ function App() {
   }, [dispatch]);
 
   return (
-    <div className="App">
-      <Navigation />
-      <MessageBox />
-      {isLoading ? <Loading /> : null}
-      <Routes>
-        <Route exact path="/" element={<HomePage />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/test" element={<Gallery />} />
-      </Routes>
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline enableColorScheme="true">
+        <div className="App">
+          <NewNav />
+          <Navigation />
+          <MessageBox />
+          {isLoading ? <Loading /> : null}
+          <Routes>
+            <Route exact path="/" element={<HomePage />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/test" element={<Gallery />} />
+          </Routes>
+        </div>
+      </CssBaseline>
+    </ThemeProvider>
   );
 }
 
