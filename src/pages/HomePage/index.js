@@ -2,8 +2,8 @@ import React from "react";
 import PictionAI from "../PictionAI";
 import * as ml5 from "ml5";
 import { useState } from "react";
-import { useSelector } from "react-redux";
-import { selectChallenges } from "../../store/challenges/selectors";
+import { Snackbar } from "@mui/material";
+
 // When the model is loaded
 const classifier = ml5.imageClassifier("MobileNet", modelLoaded);
 let image = document.getElementById(`23`);
@@ -17,7 +17,6 @@ function modelLoaded() {
 export default function HomePage() {
   const [taskOption, setTaskOption] = useState(null);
 
-  const challenges = useSelector(selectChallenges);
   console.log(taskOption);
   return (
     <div class="main">
@@ -35,21 +34,6 @@ export default function HomePage() {
           app's confidence. The points don't really matter, but it's really cool
           how it works.
         </p>
-
-        {/* <select
-          onChange={() => setChallengeId()}
-          name="task"
-          //value={taskOption}
-        >
-          {challenges.map((e, key) => {
-            
-            return (
-              <option key={key} value={e.value}>
-                {e.name}
-              </option>
-            );
-          })}
-        </select> */}
         <p>Pick a challenge!</p>
       </div>
       <PictionAI />

@@ -9,20 +9,17 @@ import IconButton from "@mui/material/IconButton";
 export default function NewNav() {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          ></IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
-          </Typography>
+      <AppBar position="sticky">
+        <Toolbar
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 15,
+          }}
+        >
+          <Button variant="contained">Play</Button>
+          <Button variant="contained">Home</Button>
           <Button variant="contained">Galery</Button>
-          <Button color="primary">Login</Button>
         </Toolbar>
       </AppBar>
     </Box>

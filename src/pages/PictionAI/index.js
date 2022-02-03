@@ -9,6 +9,12 @@ import { Button } from "react-bootstrap";
 import { Image } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import * as ml5 from "ml5";
+
+import Save from "@material-ui/icons/Save";
+
+import { setMessage } from "../../store/appState/actions";
+import { Snackbar } from "@mui/material";
+
 // When the model is loaded
 const classifier = ml5.imageClassifier("MobileNet", modelLoaded);
 
@@ -22,42 +28,42 @@ function modelLoaded() {
 }
 
 export default function PictionAI() {
+  const dispatch = useDispatch();
   const [challengeId, setChallengeId] = useState(0);
-
+  const [imageData, setImageData] = useState();
   function handleChange(e) {
     let value = e.value;
-
-    console.log(e);
-    setChallengeId(value + 1);
-    console.log(challengeId);
+    setChallengeId(value + 1); //index fix
   }
+
+  const [open, setOpen] = useState(false);
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
   const challenges = useSelector(selectChallenges);
   const taskOption = challenges.map((ch, i) => {
     return { value: i, label: ch.name };
   });
-  const dispatch = useDispatch();
 
-  const [imageData, setImageData] = useState();
-  //const [playerName, setPlayerName] = useState("");
-
-  function classFunc() {
+  function imageClassification() {
     let classification;
     classifier
       .predict(image, 3, function (err, results) {
+        //ml5 async predict
         if (err) {
           console.log(err);
         }
         return results;
       })
       .then((results) => {
-        // set the prediction in state and off the loader
-        // this.setLoader(false);
-        //this.setPredictions(results);
-
         classification = JSON.stringify({ ...results });
-        myFunc();
+        submit();
+        setOpen(true);
       });
-    async function myFunc() {
+    async function submit() {
       const response = await axios.post(`${apiUrl}/submissions`, {
         score: 100,
         imageUrl: imageData,
@@ -67,7 +73,8 @@ export default function PictionAI() {
       });
 
       dispatch({ type: "subs/add", payload: response.data.submission });
-      window.alert(`you scored ${response.data.submission.score}`);
+
+      dispatch(setMessage("info", true, "Submitted!"));
     }
   }
 
@@ -98,11 +105,6 @@ export default function PictionAI() {
         options={taskOption ? taskOption : null}
         onChange={handleChange}
       />
-      {/*   <p>
-        if you want to play, enter your name and click to continue!
-        <input onChange={(event) => setPlayerName(event.target.value)} />
-        <Button style={{ height: "30px", width: "100px" }}>Continue</Button>
-      </p> */}
       <img alt="robot" src={gif} />
       <div
         style={{
@@ -125,7 +127,7 @@ export default function PictionAI() {
           />
           {image ? <h1 style={{ fontSize: 20 }}>Succesfully uploaded!</h1> : ""}
         </div>
-        <Button onClick={classFunc}>SUBMIT</Button>
+        <Button onClick={imageClassification}>SUBMIT</Button>
       </div>{" "}
     </div>
   );
