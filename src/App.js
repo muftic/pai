@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "./App.css";
-import Gallery from "./components/Gallery";
+import Gallery from "./pages/Gallery";
 import { Routes, Route } from "react-router-dom";
 import Loading from "./components/Loading";
 import MessageBox from "./components/MessageBox";
@@ -92,7 +92,7 @@ function App() {
               <Route exact path="/" element={<HomePage />} />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/test" element={<Gallery />} />
+              <Route path="/gallery" element={<Gallery />} />
             </Routes>
           </Container>
         </div>
