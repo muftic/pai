@@ -103,7 +103,10 @@ export default function PictionAI() {
 
   return (
     <div style={{ justifyContent: "center" }}>
-      <TableContainer component={Paper}>
+      <TableContainer
+        style={{ width: "50%", margin: "0 auto" }}
+        component={Paper}
+      >
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
