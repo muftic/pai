@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import Select from "react-select";
 import { selectChallenges } from "../../store/challenges/selectors";
 import axios from "axios";
@@ -9,12 +8,14 @@ import { Button } from "react-bootstrap";
 import { Image } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import * as ml5 from "ml5";
-
-import Save from "@material-ui/icons/Save";
-
 import { setMessage } from "../../store/appState/actions";
-import { Snackbar } from "@mui/material";
-
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 // When the model is loaded
 const classifier = ml5.imageClassifier("MobileNet", modelLoaded);
 
@@ -31,11 +32,12 @@ export default function PictionAI() {
   const dispatch = useDispatch();
   const [challengeId, setChallengeId] = useState(0);
   const [imageData, setImageData] = useState();
+
   function handleChange(e) {
     let value = e.value;
     setChallengeId(value + 1); //index fix
   }
-
+  const [result, setResult] = useState([]);
   const [open, setOpen] = useState(false);
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -62,6 +64,8 @@ export default function PictionAI() {
         classification = JSON.stringify({ ...results });
         submit();
         setOpen(true);
+        setResult(results);
+        dispatch(setMessage("info", true, "Successfully added to Gallery!"));
       });
     async function submit() {
       const response = await axios.post(`${apiUrl}/submissions`, {
@@ -73,8 +77,6 @@ export default function PictionAI() {
       });
 
       dispatch({ type: "subs/add", payload: response.data.submission });
-
-      dispatch(setMessage("info", true, "Submitted!"));
     }
   }
 
@@ -101,6 +103,36 @@ export default function PictionAI() {
 
   return (
     <div style={{ justifyContent: "center" }}>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Label</TableCell>
+              <TableCell align="right">Confidence</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {result.map((row) => (
+              <TableRow
+                key={row.label}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {row.label}
+                </TableCell>
+                <TableCell align="right">{row.confidence}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <div>
+        {open ? (
+          <div>
+            <table></table>
+          </div>
+        ) : null}
+      </div>
       <Select
         options={taskOption ? taskOption : null}
         onChange={handleChange}
@@ -125,7 +157,11 @@ export default function PictionAI() {
                 : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png"
             }
           />
-          {image ? <h1 style={{ fontSize: 20 }}>Succesfully uploaded!</h1> : ""}
+          {imageData ? (
+            <h1 style={{ fontSize: 20 }}>Succesfully uploaded!</h1>
+          ) : (
+            ""
+          )}
         </div>
         <Button onClick={imageClassification}>SUBMIT</Button>
       </div>{" "}
